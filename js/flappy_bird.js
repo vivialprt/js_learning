@@ -13,23 +13,23 @@ fg.src = "img/flappy_bird_fg.png"
 pipeUp.src = "img/flappy_bird_pipeUp.png"
 pipeDown.src = "img/flappy_bird_pipeBottom.png"
 
-const gap = 90;
+const GAP = 90;
+const GRAVITY = 1.5;
+const X_SPEED = 1;
+const SCORE_THR = 5;
+const NEW_PIPE_THR = 125;
+
 
 let stopFlag = false;
-
+let xPos = 10;
+let yPos = 150;
+let score = 0;
 let pipes = [];
 
 pipes.push({
     x: cvs.width,
     y: 0
 })
-
-let xPos = 10;
-let yPos = 150;
-let score = 0;
-
-const gravity = 1.5;
-const x_speed = 1;
 
 document.addEventListener("keydown", moveUp);
 
@@ -45,14 +45,14 @@ function draw() {
     for (let i = 0; i < pipes.length; i++) {
 
         ctx.drawImage(pipeUp, pipes[i].x, pipes[i].y);
-        ctx.drawImage(pipeDown, pipes[i].x, pipes[i].y + pipeUp.height + gap);
-        pipes[i].x -= x_speed;
+        ctx.drawImage(pipeDown, pipes[i].x, pipes[i].y + pipeUp.height + GAP);
+        pipes[i].x -= X_SPEED;
         birdDead(pipes[i]);
-        if (5 - x_speed < pipes[i].x && pipes[i].x <= 5) {
+        if (SCORE_THR - X_SPEED < pipes[i].x && pipes[i].x <= SCORE_THR) {
             score++;
         }
 
-        if (125 - x_speed < pipes[i].x && pipes[i].x <= 125) {
+        if (NEW_PIPE_THR - X_SPEED < pipes[i].x && pipes[i].x <= NEW_PIPE_THR) {
             pipes.push({
                 x: cvs.width,
                 y: Math.floor(Math.random() * pipeUp.height) - pipeUp.height
@@ -65,7 +65,7 @@ function draw() {
 
     ctx.drawImage(bird, xPos, yPos);
 
-    yPos += gravity;
+    yPos += GRAVITY;
 
     ctx.fillStyle = "#000";
     ctx.font = "24px Verdana";
@@ -81,7 +81,7 @@ function birdDead(pipe) {
         xPos <= pipe.x + pipeUp.width &&
         (
             yPos <= pipe.y + pipeUp.height ||
-            yPos + bird.height >= pipe.y + pipeUp.height + gap
+            yPos + bird.height >= pipe.y + pipeUp.height + GAP
         ) ||
         yPos + bird.height >= cvs.height - fg.height
     ) {
