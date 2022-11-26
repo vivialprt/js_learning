@@ -32,6 +32,7 @@ pipes.push({
 })
 
 document.addEventListener("keydown", moveUp);
+document.addEventListener("touchstart", moveUp);
 
 function moveUp(event) {
     if (event.keyCode === 27)
