@@ -46,8 +46,10 @@ function draw() {
 
         ctx.drawImage(pipeUp, pipes[i].x, pipes[i].y);
         ctx.drawImage(pipeDown, pipes[i].x, pipes[i].y + pipeUp.height + GAP);
+
         pipes[i].x -= X_SPEED;
         birdDead(pipes[i]);
+
         if (SCORE_THR - X_SPEED < pipes[i].x && pipes[i].x <= SCORE_THR) {
             score++;
         }
