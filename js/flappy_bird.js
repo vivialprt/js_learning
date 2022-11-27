@@ -14,7 +14,7 @@ pipeUp.src = "img/flappy_bird_pipeUp.png"
 pipeDown.src = "img/flappy_bird_pipeBottom.png"
 
 const GAP = 90;
-const GRAVITY = 1.5;
+const Y_ACCELERATION = 0.4;
 const X_SPEED = 1;
 const SCORE_THR = 5;
 const NEW_PIPE_THR = 125;
@@ -23,6 +23,7 @@ const NEW_PIPE_THR = 125;
 let stopFlag = false;
 let xPos = 10;
 let yPos = 150;
+let ySpeed = 0;
 let score = 0;
 let pipes = [];
 
@@ -37,7 +38,7 @@ document.addEventListener("touchstart", moveUp);
 function moveUp(event) {
     if (event.keyCode === 27)
         stopFlag = true;
-    yPos -= 30; 
+    ySpeed = -5;
 }
 
 function draw() {
@@ -68,7 +69,8 @@ function draw() {
 
     ctx.drawImage(bird, xPos, yPos);
 
-    yPos += GRAVITY;
+    ySpeed += Y_ACCELERATION;
+    yPos += ySpeed;
 
     ctx.fillStyle = "#000";
     ctx.font = "24px Verdana";
